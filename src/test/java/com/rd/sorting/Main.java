@@ -1,5 +1,6 @@
 package com.rd.sorting;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,13 +86,15 @@ public class Main {
         res14 = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         res15 = new Integer[]{1, 2, 3, 4, 5};
 
+        tests = new Integer[][]{int0, int1, int2, int3, int4, int5, int6, int7, int8, int9, int10, int11, int12,
+                int13, int14, int15};
+        results = new Integer[][]{res0, res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12,
+                res13, res14, int15};
 
-        tests = new Integer[][]{int0, int1, int2, int3, int4, int5, int6, int7, int8, int9, int10, int11, int12, int13, int14, int15};
-        results = new Integer[][]{res0, res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12, res13, res14, int15};
-
-        stabletest = new Pair[]{new Pair(0, 1), new Pair(1, 1), new Pair(2, 4), new Pair(3, 2), new Pair(5, 4), new Pair(6, 2), new Pair(7, 3)};
-        stableresult = new Pair[]{new Pair(0, 1), new Pair(1, 1), new Pair(3, 2), new Pair(6, 2), new Pair(7, 3), new Pair(2, 4), new Pair(5, 4)};
-
+        stabletest = new Pair[]{new Pair(0, 1), new Pair(1, 1), new Pair(2, 4), new Pair(3, 2), new Pair(5, 4),
+                new Pair(6, 2), new Pair(7, 3)};
+        stableresult = new Pair[]{new Pair(0, 1), new Pair(1, 1), new Pair(3, 2), new Pair(6, 2), new Pair(7, 3),
+                new Pair(2, 4), new Pair(5, 4)};
 
     }
 
@@ -99,86 +102,61 @@ public class Main {
     public void SelectionSort() {
         for (int i = 0; i < tests.length; i++) {
             System.out.println("Selection Sort Test: " + i + ": " + Arrays.toString(tests[i]));
-            Sort.selectionSort(tests[i]);
+            SelectionSort sorter = new SelectionSort();
+            sorter.sort(tests[i]);
+            System.out.println(sorter);
             assertArrayEquals(results[i], tests[i]);
         }
 
-    }
-
-    @Test
-    public void stableSelectionSort() {
-        System.out.println("Stable Test: " + Arrays.toString(stabletest));
-        Sort.selectionSort(stabletest);
-        assertArrayEquals(stableresult, stabletest);
-        System.arraycopy(new int[1], 0, new int[1], 1, 5);
-    }
-
-    @Test
-    public void SelectionSortLessSwaps() {
-        for (int i = 0; i < tests.length; i++) {
-            System.out.println("Selection Sort Test: " + i + ": " + Arrays.toString(tests[i]));
-            Sort.selectionSortLessSwaps(tests[i]);
-            assertArrayEquals(results[i], tests[i]);
-        }
-
-    }
-
-    @Test
-    public void stableSelectionSortLessSwaps() {
-        System.out.println("Stable Test: " + Arrays.toString(stabletest));
-        Sort.selectionSortLessSwaps(stabletest);
-        assertArrayEquals(stableresult, stabletest);
     }
 
     @Test
     public void bubbleSort() {
         for (int i = 0; i < tests.length; i++) {
             System.out.println("Bubble Sort Test: " + i + ": " + Arrays.toString(tests[i]));
-            Sort.bubbleSort(tests[i]);
+            BubbleSort sorter = new BubbleSort();
+            sorter.sort(tests[i]);
+            System.out.println(sorter);
             assertArrayEquals(results[i], tests[i]);
         }
 
-    }
-
-    @Test
-    public void stablebubbleSort() {
-        System.out.println("Stable Test: " + Arrays.toString(stabletest));
-        Sort.bubbleSort(stabletest);
-        assertArrayEquals(stableresult, stabletest);
     }
 
     @Test
     public void insertionSort() {
         for (int i = 0; i < tests.length; i++) {
             System.out.println("Insertion Sort Test: " + i + ": " + Arrays.toString(tests[i]));
-            Sort.insertionSort(tests[i]);
+            InsertionSort sorter = new InsertionSort();
+            sorter.sort(tests[i]);
+            System.out.println(sorter);
             assertArrayEquals(results[i], tests[i]);
         }
 
     }
 
+
     @Test
-    public void stableinsertionSort() {
-        System.out.println("Stable Test: " + Arrays.toString(stabletest));
-        Sort.insertionSort(stabletest);
-        assertArrayEquals(stableresult, stabletest);
+    public void shellSortInsertion() {
+
+        for (int i = 0; i < tests.length; i++) {
+            System.out.println("Insertion Sort Test: " + i + ": " + Arrays.toString(tests[i]));
+            ShellSort sorter = new ShellSort();
+            sorter.insertionSort(tests[i], 0, 1);
+            System.out.println(sorter);
+            assertArrayEquals(results[i], tests[i]);
+        }
     }
 
     @Test
     public void shellSort() {
         for (int i = 0; i < tests.length; i++) {
             System.out.println("Shell Sort Test: " + i + ": " + Arrays.toString(tests[i]));
-            Sort.shellSort(tests[i]);
+            ShellSort sorter = new ShellSort();
+            sorter.sort(tests[i]);
+            System.out.println(sorter);
             assertArrayEquals(results[i], tests[i]);
         }
 
-    }
-
-    @Test
-    public void notStableshellSort() {
-        System.out.println("Not Stable Test: " + Arrays.toString(stabletest));
-        Sort.shellSort(stabletest);
-        assertFalse(Arrays.equals(stableresult, stabletest));
     }
 
 
@@ -186,24 +164,25 @@ public class Main {
     public void mergeSort() {
         for (int i = 0; i < tests.length; i++) {
             System.out.println("Merge Sort Test: " + i + ": " + Arrays.toString(tests[i]));
-            Sort.mergeSort(tests[i]);
+            MergeSort sorter = new MergeSort();
+            sorter.sort(tests[i]);
+            System.out.println(sorter);
             assertArrayEquals(results[i], tests[i]);
         }
-
-    }
-
-    @Test
-    public void notStablemergeSort() {
         System.out.println("Not Stable Test: " + Arrays.toString(stabletest));
-        Sort.mergeSort(stabletest);
-        assertFalse(Arrays.equals(stableresult, stabletest));
+        MergeSort sorter = new MergeSort();
+        sorter.sort(stabletest);
+        Assert.assertTrue(Arrays.equals(stableresult, stabletest)); // assertFalse
     }
+
 
     @Test
     public void quickSort() {
         for (int i = 0; i < tests.length; i++) {
             System.out.println("Quick Sort Test: " + i + ": " + Arrays.toString(tests[i]));
-            Sort.mergeSort(tests[i]);
+            QuickSort sorter = new QuickSort();
+            sorter.sort(tests[i]);
+            System.out.println(sorter);
             assertArrayEquals(results[i], tests[i]);
         }
 
@@ -213,9 +192,8 @@ public class Main {
     public void notStablequickSort() {
         System.out.println("Not Stable Test: " + Arrays.toString(stabletest));
         Sort.mergeSort(stabletest);
-        assertFalse(Arrays.equals(stableresult, stabletest)); //assertFalse
+        assertFalse(Arrays.equals(stableresult, stabletest)); // assertFalse
     }
-
 
 }
 

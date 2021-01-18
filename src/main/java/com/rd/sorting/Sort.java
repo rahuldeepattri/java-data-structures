@@ -1,5 +1,13 @@
 package com.rd.sorting;
 
+
+
+// Use Case -
+// Time Complexity - O()
+// Space Complexity - O()
+// Is Stable - 
+// Is Adatable? - 
+// Swaps and Comparisions - 
 public class Sort {
     static <T extends Comparable<T>> void selectionSortLessSwaps(T[] array) {
         int steps = 0;
@@ -242,7 +250,7 @@ public class Sort {
 
 
     private static <T> void swap(T[] array, int i, int j) {
-        //dont use fancy swaps bec if i and min are same then we will get wrong output
+        //dont use fancy swaps bec if i and j are same then we will get wrong output
         T t = array[i];
         array[i] = array[j];
         array[j] = t;

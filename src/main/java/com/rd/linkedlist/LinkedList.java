@@ -422,7 +422,8 @@ public class LinkedList<T extends Comparable<T>> {
             return;
         Node<T> slow = list.getHead();
         Node<T> fast = list.getHead().getNext();
-
+        //1 2
+        //2
         while (fast != null && fast.getNext() != null) {
             slow = slow.getNext();
             fast = fast.getNext().getNext();

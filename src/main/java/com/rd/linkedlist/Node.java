@@ -6,7 +6,7 @@ package com.rd.linkedlist;
  *
  * @param <T> The data should be comparable. Its required for equality checks so that we can do things like finding a node or sort.
  */
-public class Node<T extends Comparable<T>> {
+public class Node<T> {
     private T data;
     private Node<T> next;
 

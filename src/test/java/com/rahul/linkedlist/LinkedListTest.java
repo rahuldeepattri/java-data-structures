@@ -1,4 +1,4 @@
-package com.rd.linkedlist;
+package com.rahul.linkedlist;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class TestLinkedList {
+public class LinkedListTest {
     LinkedList<Integer> list;
 
     @Before
@@ -51,7 +51,7 @@ public class TestLinkedList {
     }
 
     @Test
-    public void testPushPopPeek() {
+    public void testPushPoppeekTail() {
         LinkedList<Integer> list = new LinkedList<>();
         list.push(1);
         list.print();
@@ -65,14 +65,14 @@ public class TestLinkedList {
 
         list.push(4);
         list.print();
-        Assert.assertEquals(4, list.peek().intValue());
+        Assert.assertEquals(4, list.peekTail().intValue());
 
 
         Assert.assertEquals(4, list.pop().intValue());
         Assert.assertEquals(2, list.pop().intValue());
 
         list.print();
-        Assert.assertNull(list.peek());
+        Assert.assertNull(list.peekTail());
         Assert.assertNull(list.pop());
 
 
@@ -131,25 +131,25 @@ public class TestLinkedList {
     public void frontBackSplit() {
         LinkedList<Integer> a = new LinkedList<Integer>();
         a.append(1);
-        assertEquals(1, a.frontBackSplit().get(0).getData().intValue());
+        assertEquals(1, a.frontBackSplit().get(0).get(0).intValue());
 
 
         a.append(2);
-        assertEquals(1, a.frontBackSplit().get(0).getData().intValue());
-        assertEquals(2, a.frontBackSplit().get(1).getData().intValue());
+        assertEquals(1, a.frontBackSplit().get(0).get(0).intValue());
+        assertEquals(2, a.frontBackSplit().get(1).get(0).intValue());
 
         a.append(3);
-        assertEquals(1, a.frontBackSplit().get(0).getData().intValue());
-        assertEquals(3, a.frontBackSplit().get(1).getData().intValue());
+        assertEquals(1, a.frontBackSplit().get(0).get(0).intValue());
+        assertEquals(3, a.frontBackSplit().get(1).get(0).intValue());
 
 
         a.append(4);
-        assertEquals(1, a.frontBackSplit().get(0).getData().intValue());
-        assertEquals(3, a.frontBackSplit().get(1).getData().intValue());
+        assertEquals(1, a.frontBackSplit().get(0).get(0).intValue());
+        assertEquals(3, a.frontBackSplit().get(1).get(0).intValue());
 
         a.append(5);
-        assertEquals(1, a.frontBackSplit().get(0).getData().intValue());
-        assertEquals(4, a.frontBackSplit().get(1).getData().intValue());
+        assertEquals(1, a.frontBackSplit().get(0).get(0).intValue());
+        assertEquals(4, a.frontBackSplit().get(1).get(0).intValue());
     }
 
     @Test
@@ -185,7 +185,7 @@ public class TestLinkedList {
         assertEquals(7, list.get(6).intValue());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void removeDuplicatesException() {
         list.push(1);
         list.push(1);
@@ -195,7 +195,7 @@ public class TestLinkedList {
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void removeDuplicatesExceptionTest2() {
         list.push(1);
         list.push(1);
@@ -206,44 +206,13 @@ public class TestLinkedList {
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test()
     public void removeDuplicatesExceptionTest3() {
         list.removeDuplicates();
         assertNull(list.get(0));
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void removeAfterHead() {
-
-        list.removeAfter(list.getHead());
-        assertNull(list.get(0));
-    }
-
-    @Test
-    public void removeAfter() {
-
-
-        list.push(1);
-        list.removeAfter(list.getHead());
-        assertNull(list.getHead().getNext());
-
-        list.push(1);
-        list.removeAfter(list.getHead());
-        assertNull(list.getHead().getNext());
-
-        list.push(2);
-        list.push(3);
-        list.removeAfter(list.getHead().getNext().getNext());
-        assertNull(list.getHead().getNext().getNext().getNext());
-
-
-        list.push(4);
-        list.removeAfter(list.getHead().getNext());
-        assertEquals(4, list.get(2).intValue());
-
-
-    }
 
     /**
      * Move the head element or the first element from this list to
@@ -301,13 +270,13 @@ public class TestLinkedList {
         list.append(1);
         result = list.sortedMergeList(otherList);
         assertNull(otherList.getHead());
-        assertEquals(1, result.getHead().getData().intValue());
+        assertEquals(1, result.getHead().intValue());
 
         list.truncate();
         otherList.append(1);
         result = list.sortedMergeList(otherList);
         assertNull(list.getHead());
-        assertEquals(1, result.getHead().getData().intValue());
+        assertEquals(1, result.getHead().intValue());
 
         list.truncate();
         otherList.truncate();
