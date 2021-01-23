@@ -177,6 +177,18 @@ public class Main {
 
 
     @Test
+    public void heapSort() {
+        for (int i = 0; i < tests.length; i++) {
+            System.out.println("Quick Sort Test: " + i + ": " + Arrays.toString(tests[i]));
+            HeapSort sorter = new HeapSort();
+            sorter.sort(tests[i]);
+            System.out.println(sorter);
+            assertArrayEquals(results[i], tests[i]);
+        }
+
+    }
+
+    @Test
     public void quickSort() {
         for (int i = 0; i < tests.length; i++) {
             System.out.println("Quick Sort Test: " + i + ": " + Arrays.toString(tests[i]));
@@ -188,12 +200,7 @@ public class Main {
 
     }
 
-    @Test
-    public void notStablequickSort() {
-        System.out.println("Not Stable Test: " + Arrays.toString(stabletest));
-        Sort.mergeSort(stabletest);
-        assertFalse(Arrays.equals(stableresult, stabletest)); // assertFalse
-    }
+
 
 }
 

@@ -1,9 +1,6 @@
 package com.rd.graph.tree;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class BinaryTree<T> {
@@ -32,6 +29,28 @@ public class BinaryTree<T> {
         inOrderTraversal(root.right, consumer);
     }
 
+    public void inOrderIterativeTraversal(Consumer<T> consumer) {
+        Deque<Node<T>> stack = new LinkedList<>();
+
+        Node<T> curr = this.root;
+
+        while (true) {
+            if (curr != null) { // before processing curr node process the left node.
+                stack.offerFirst(curr); // will process later
+                curr = curr.left; // process the left node.
+            } else { // we have processed left side
+                if (stack.isEmpty()) // nothing more to process
+                    break;
+
+                curr = stack.pollFirst();
+
+                consumer.accept(curr.data); // process the root
+
+                curr = curr.right;  // move to right
+            }
+        }
+    }
+
     //Root Left Right
     public void preOrderTraversal(Consumer<T> consumer) {
         preOrderTraversal(root, consumer);
@@ -45,6 +64,27 @@ public class BinaryTree<T> {
         preOrderTraversal(root.left, consumer);
 
         preOrderTraversal(root.right, consumer);
+
+    }
+
+    //Root Left Right
+    public void preOrderTraversalIterative(Consumer<T> consumer) {
+        Node<T> curr = this.root;
+
+        Deque<Node<T>> stack = new LinkedList<>();
+
+        while (true) {
+            if (curr != null) {
+                consumer.accept(curr.data); // process current node
+                stack.offerFirst(curr); // need a way to access the right node
+                curr = curr.left;
+            } else { // we have processed all the nodes and its left nodes.
+                if (stack.isEmpty())
+                    break;
+                curr = stack.pollFirst(); // the current node would have been processed already, we need its right node to be processed
+                curr = curr.right;
+            }
+        }
 
     }
 
@@ -64,6 +104,40 @@ public class BinaryTree<T> {
 
     }
 
+    //Left Right Root
+    public void postOrderTraversalIterative(Consumer<T> consumer) {
+        Node<T> curr = this.root;
+
+        Deque<Node<T>> stack = new LinkedList<>();
+
+        // TODO how to have a visited Node<T> set with equals and hashcode
+        Set<Node<T>> visited = new HashSet<>(); // Do we really need to override for our use case?
+        while (true) {
+            if (curr != null) {  // before processing root process left
+                stack.offerFirst(curr);
+                curr = curr.left;
+            } else { // no more left nodes then process right first.
+                if (stack.isEmpty())
+                    break;
+
+                curr = stack.pop();
+                if (curr.right == null) {
+                    consumer.accept(curr.data);
+                    visited.add(curr);
+                    curr = null;
+                } else if (!visited.contains(curr.right)) { // have not  visited right side yet
+                    stack.offerFirst(curr);
+                    curr = curr.right;
+                } else { // have visited left and right
+                    consumer.accept(curr.data);
+                    visited.add(curr);
+                    curr = null;
+                }
+
+            }
+
+        }
+    }
 
     public void breadthFirstTraversal(Consumer<T> consumer) {
 
@@ -84,10 +158,9 @@ public class BinaryTree<T> {
 
     }
 
-
     ///         1
-///     2       3
-///   4  5      6  7
+    ///     2       3
+    ///   4  5      6  7
     public void add(T data) {
 
         if (this.root == null) {
@@ -114,6 +187,57 @@ public class BinaryTree<T> {
 
         }
 
+    }
+
+    ///         1
+    ///     2       3
+    ///   4  5
+    public boolean delete(T toDelete) {
+        if (this.root == null) return false;
+
+        // parent of node having toDelete is not required as we will
+        // replace the value of node having toDelete data with right most node of last level
+        // we need parent of the right most node
+
+        Node<T> nodeToDelete = null;
+        Node<T> parentLeft = null;
+        Node<T> parentRight = null;
+
+        Queue<Node<T>> queue = new LinkedList<>();
+        queue.offer(this.root);
+
+        while (!queue.isEmpty()) {
+            Node<T> poll = queue.poll();
+
+            if (nodeToDelete == null && poll.data.equals(toDelete)) {
+                nodeToDelete = poll;
+            }
+            if (poll.left != null) {
+                queue.offer(poll.left);
+                parentLeft = poll;
+                parentRight = null;
+            }
+            if (poll.right != null) {
+                queue.offer(poll.right);
+                parentLeft = null;
+                parentRight = poll;
+            }
+
+        }
+        if (nodeToDelete == null)
+            return false;
+
+        if (parentLeft != null) {
+            nodeToDelete.data = parentLeft.left.data;
+            parentLeft.left = null;
+        } else if (parentRight != null) {
+            nodeToDelete.data = parentRight.right.data;
+            parentRight.right = null;
+        } else { //we have only root node
+            this.root = null;
+        }
+
+        return true;
     }
 
     public int depth() {
@@ -183,6 +307,10 @@ public class BinaryTree<T> {
                 "root=" + root +
                 '}';
     }
+
+    public void print() {
+        TreePrinter.print(this.root);
+    }
 }
 
 class Node<T> implements TreePrinter.PrintableNode {
@@ -190,8 +318,11 @@ class Node<T> implements TreePrinter.PrintableNode {
     public Node<T> left;
     public Node<T> right;
 
+    private final UUID uuid;
+
     public Node(T data) {
         this.data = data;
+        this.uuid = UUID.randomUUID();
     }
 
     @Override
@@ -200,6 +331,20 @@ class Node<T> implements TreePrinter.PrintableNode {
                 "data=" + data + '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Node<?> node = (Node<?>) o;
+
+        return uuid.equals(node.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return uuid.hashCode(); // we can let it be default
+    }
 
     @Override
     public TreePrinter.PrintableNode getLeft() {

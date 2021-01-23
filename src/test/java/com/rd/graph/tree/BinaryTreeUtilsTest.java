@@ -146,4 +146,52 @@ public class BinaryTreeUtilsTest {
     }
 
 
+    @Test
+    public void isBST_positive() {
+        BinarySearchTree<Double> bt = new BinarySearchTree<>();
+
+        for (int i = 0; i < 40; i++) {
+            bt.add(Math.random());
+        }
+        assertTrue(BinaryTreeUtils.isBST(bt));
+    }
+
+    @Test
+    public void isBST_negative() {
+        BinaryTree<Integer> bt = new BinaryTree<>();
+
+        bt.add(1);
+        bt.add(2);
+        bt.add(3);
+
+
+        assertFalse(BinaryTreeUtils.isBST(bt));
+    }
+
+
+    @Test
+    public void isBST_Integer_positive() {
+        BinaryTree<Integer> bt = new BinaryTree<>();
+
+        bt.add(2);
+        bt.add(1);
+        bt.add(3);
+
+
+        assertTrue(BinaryTreeUtils.isBSTInteger(bt));
+    }
+
+    @Test
+    public void isBST_Integer_negative() {
+        BinaryTree<Integer> bt = new BinaryTree<>();
+
+        bt.add(1);
+        bt.add(2);
+        bt.add(3);
+
+
+        assertFalse(BinaryTreeUtils.isBSTInteger(bt));
+    }
+
+
 }

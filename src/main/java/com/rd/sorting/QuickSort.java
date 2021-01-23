@@ -8,7 +8,7 @@ package com.rd.sorting;
 // Swaps and Comparisions - Below
 public class QuickSort {
 
-    
+
     int swaps = 0;
 
     // O(n^2)
@@ -48,7 +48,7 @@ public class QuickSort {
         for (int j = startIdx + 1; j <= endIdx; j++) {
 
             T element = array[j];
-            
+
             comparisons++;
             // 3 2 3 5 1 // 2 1
             if (pivot.compareTo(element) > 0) {

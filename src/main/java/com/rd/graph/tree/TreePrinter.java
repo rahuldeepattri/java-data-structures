@@ -11,29 +11,6 @@ import java.util.List;
  */
 public class TreePrinter {
     /**
-     * Node that can be printed
-     */
-    public interface PrintableNode {
-        /**
-         * Get left child
-         */
-        PrintableNode getLeft();
-
-
-        /**
-         * Get right child
-         */
-        PrintableNode getRight();
-
-
-        /**
-         * Get text to be printed
-         */
-        String getText();
-    }
-
-
-    /**
      * Print a tree
      *
      * @param root tree root node
@@ -143,5 +120,28 @@ public class TreePrinter {
 
             perpiece /= 2;
         }
+    }
+
+
+    /**
+     * Node that can be printed
+     */
+    public interface PrintableNode {
+        /**
+         * Get left child
+         */
+        PrintableNode getLeft();
+
+
+        /**
+         * Get right child
+         */
+        PrintableNode getRight();
+
+
+        /**
+         * Get text to be printed
+         */
+        String getText();
     }
 }

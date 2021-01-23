@@ -13,8 +13,8 @@ import java.util.List;
  * @param <T>
  */
 public class LinkedList<T extends Comparable<T>> {
-    private Node<T> head;
     public int length; //Gives the length of list in constant time
+    private Node<T> head;
 
     public LinkedList() {
     }

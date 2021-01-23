@@ -1,8 +1,9 @@
 package com.rd;
 
+
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.PriorityQueue;
 
 //	public static void main(String[] args) {
 //		TreeNode root = new TreeNode(0);
@@ -139,6 +140,8 @@ public class Solution {
 
     public int countArrangement(int n) {
 //        LinkedHashSet<Integer> choices = new LinkedHashSet<>();
+//        PriorityQueue<Word> p = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.count, o2.count));
+
         int[] choices = new int[n];
         for (int i = 1; i <= n; i++) {
 //            choices.add(i);

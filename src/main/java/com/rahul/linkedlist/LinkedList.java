@@ -8,6 +8,10 @@ import java.util.function.Consumer;
 
 public class LinkedList<T extends Comparable<T>> {
 
+    private Node<T> head;
+    private Node<T> tail;
+    private int size;
+
     public T peekHead() {
         if (head == null)
             return null;
@@ -86,9 +90,9 @@ public class LinkedList<T extends Comparable<T>> {
                 break;
             }
         }
-        if(prev == null) {
+        if (prev == null) {
             addToHead(data);
-        }else {
+        } else {
             prev.setNext(new Node<>(data, curr));
         }
         size++;
@@ -319,7 +323,6 @@ public class LinkedList<T extends Comparable<T>> {
         return sortedMerge(first, second);
     }
 
-
     private Node<T> sortedMerge(Node<T> first, Node<T> second) {
         if (first == null)
             return second;
@@ -369,42 +372,6 @@ public class LinkedList<T extends Comparable<T>> {
         return Arrays.asList(this.head, next);
     }
 
-
-    class Node<T extends Comparable<T>> {
-        private T data;
-        private Node<T> next;
-
-        public Node(T data, Node<T> next) {
-            this.data = data;
-            this.next = next;
-        }
-
-        public Node(T data) {
-            this.data = data;
-        }
-
-        public T getData() {
-            return data;
-        }
-
-        public void setData(T data) {
-            this.data = data;
-        }
-
-        public Node<T> getNext() {
-            return next;
-        }
-
-        public void setNext(Node<T> next) {
-            this.next = next;
-        }
-
-        public String toString() {
-            return data.toString();
-        }
-
-    }
-
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -412,10 +379,6 @@ public class LinkedList<T extends Comparable<T>> {
 
         return builder.toString();
     }
-
-    private Node<T> head;
-    private Node<T> tail;
-    private int size;
 
     /**
      * O(n)
@@ -575,6 +538,41 @@ public class LinkedList<T extends Comparable<T>> {
      */
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    class Node<T extends Comparable<T>> {
+        private T data;
+        private Node<T> next;
+
+        public Node(T data, Node<T> next) {
+            this.data = data;
+            this.next = next;
+        }
+
+        public Node(T data) {
+            this.data = data;
+        }
+
+        public T getData() {
+            return data;
+        }
+
+        public void setData(T data) {
+            this.data = data;
+        }
+
+        public Node<T> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<T> next) {
+            this.next = next;
+        }
+
+        public String toString() {
+            return data.toString();
+        }
+
     }
 
 }

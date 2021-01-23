@@ -1,5 +1,7 @@
 package com.rd.sorting;
 
+import java.util.ArrayList;
+
 // Use Case - Slightly comlex & adaptable, when n is small bec less swaps and comparisons
 // Time Complexity - O(n^2)
 // Space Complexity - O(1)
@@ -15,25 +17,27 @@ public class InsertionSort {
 
     public <T extends Comparable<T>> void sort(T[] array) {
 
+        ArrayList<Character> list = new ArrayList<>();
+
+
         for (int i = 0; i < array.length - 1; i++) { // Go upto second last element, the last element will be taken care of by inner loop
             //Consider that till index i the list is sorted, we call it sorted sublist
 
             //Add one item to sorted list
-            
-            
-            for(int j = i + 1; j > 0; j--) { //Bubble in the element outside the sorted sublist 
+
+
+            for (int j = i + 1; j > 0; j--) { //Bubble in the element outside the sorted sublist
 
                 T toAdd = array[j];
                 T sorted = array[j - 1];
-                
+
                 comparisons++;
-                if(toAdd.compareTo(sorted) < 0) {
+                if (toAdd.compareTo(sorted) < 0) {
                     swap(array, j, j - 1);
-                }
-                else //the new element has reached correct place in sorted sub list
+                } else //the new element has reached correct place in sorted sub list
                     break;
             }
-        
+
         }
     }
 

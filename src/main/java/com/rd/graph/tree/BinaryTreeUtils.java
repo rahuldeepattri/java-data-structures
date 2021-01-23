@@ -78,7 +78,7 @@ public class BinaryTreeUtils {
  */
     public static <T> Optional<Node<T>> leastCommonAncestor(BinaryTree<T> bt, T first, T second) {
         return leastCommonAncestor(bt.root, first, second);
-        //TODO check if a better way is possible
+        //TODO check if a better way is possible https://www.youtube.com/watch?v=py3R23aAPCA
     }
 
     public static <T> Optional<Node<T>> leastCommonAncestor(Node<T> root, T first, T second) {
@@ -105,10 +105,11 @@ public class BinaryTreeUtils {
             leastCommonAncestor = root;
         }
 
+
         return Optional.ofNullable(leastCommonAncestor);
 
     }
-
+// return the node that it found out of first and second
     public static <T> boolean find(Node<T> fromNode, T toFind) {
         if (fromNode == null) return false;
         if (fromNode.data.equals(toFind)) return true;
@@ -232,7 +233,7 @@ public class BinaryTreeUtils {
         // Iterate through all the values that could be the root...
         for (int i = 2; i <= numberOfNodes; i++) {
             double count = 0;
-            for(int n = 1; n <= i; n++) {
+            for (int n = 1; n <= i; n++) {
                 count += dp[n - 1] * dp[i - n];
             }
             dp[i] = count;
@@ -243,32 +244,58 @@ public class BinaryTreeUtils {
         return dp[numberOfNodes];
     }
 
-    /*public <T extends Comparable<T>> boolean isBST(BinaryTree<T> bt) {
+    public static <T extends Comparable<T>> boolean isBST(BinaryTree<T> bt) {
         if (bt.root == null) return true;
+
         Deque<Node<T>> stack = new LinkedList<>();
         stack.offerFirst(bt.root);
 
-        T prev = btroot.data;
-	*//*
-	5
-    2    8
-   1 3  4  7
-*//*
-        while(!stack.isEmpty) {
+        T prev = null;
+        Node<T> curr = bt.root;
+        while (true) {
+            if (curr != null) { // we can process node
+                stack.offerFirst(curr);// process later
+                curr = curr.left; // process left first
+            } else { // Nothing left to process, then check stack
+                if (stack.isEmpty()) {
+                    break;
+                }
+                curr = stack.pollFirst();
 
-            Node<T> node = stack.pollFirst();
-            T curr = node.data;
+                // process current
+                if (prev == null) {
+                    prev = curr.data;
+                } else {
+                    if (prev.compareTo(curr.data) > 0)
+                        return false;
+                }
 
+                // after processing current process right;
+                curr = curr.right;
 
-            stack.offerFirst(curr.left);
-            stack.offerFirst(curr.right);
-            prev = curr.data;
-
+            }
         }
-
         return true;
+
+
     }
-*/
+
+    public static <T extends Integer> boolean isBSTInteger(BinaryTree<T> bt) {
+
+        return isBSTInteger(bt.root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+    }
+
+    public static <T extends Integer> boolean isBSTInteger(Node<T> root, Integer min, Integer max) {
+        if (root == null) return true;
+        if (root.data.intValue() > max || root.data.intValue() < min)
+            return false;
+        return
+                isBSTInteger(root.left, min, root.data)
+                        && isBSTInteger(root.right, root.data, max);
+
+    }
+
 
 }
 

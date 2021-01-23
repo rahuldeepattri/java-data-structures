@@ -2,13 +2,43 @@ package com.rd.graph.tree;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
 public class BinarySearchTreeTest {
+
+    @Test
+    public void iterable_test() {
+        BinarySearchTree<Integer> bt = new BinarySearchTree<>();
+
+        bt.add(10);
+        bt.add(7);
+        bt.add(5);
+        bt.add(8);
+        bt.add(15);
+        bt.add(11);
+        bt.add(18);
+
+        bt.print();
+
+        Iterator<Integer> iterator = bt.iterator();
+        ListIterator<Integer> desIterator = Arrays.asList(5, 7, 8, 10, 11, 15, 18).listIterator();
+
+        boolean same = true;
+        while (iterator.hasNext()) {
+            if (!desIterator.hasNext() || !iterator.next().equals(desIterator.next())) {
+                same = false;
+                break;
+            }
+        }
+        assertTrue(same);
+
+        for (Integer v :
+                bt) {
+            System.out.print(v + ", ");
+        }
+    }
 
     @Test
     public void preOrderTraversal() {
@@ -178,5 +208,249 @@ public class BinarySearchTreeTest {
 
 
     }
+
+
+    @Test
+    public void delete() {
+        BinarySearchTree<Integer> bt = new BinarySearchTree<>();
+
+
+        bt.add(5);
+        bt.add(6);
+        bt.add(2);
+        bt.add(3);
+        bt.add(1);
+        bt.add(4);
+
+        bt.print();
+
+        List<Integer> list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), list);
+
+        bt.delete(6);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5), list);
+
+        bt.delete(1);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(2, 3, 4, 5), list);
+
+        bt.delete(4);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(2, 3, 5), list);
+
+        bt.delete(4);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(2, 3, 5), list);
+
+
+    }
+
+
+    @Test
+    public void delete_test_2() {
+        BinarySearchTree<Integer> bt = new BinarySearchTree<>();
+
+
+        bt.add(5);
+        bt.add(6);
+        bt.add(2);
+        bt.add(3);
+        bt.add(1);
+        bt.add(4);
+
+        bt.print();
+
+        List<Integer> list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), list);
+
+        bt.delete(2);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(1, 3, 4, 5, 6), list);
+
+
+    }
+
+
+    @Test
+    public void delete_test_3() {
+        BinarySearchTree<Integer> bt = new BinarySearchTree<>();
+
+        bt.add(10);
+        bt.add(7);
+        bt.add(5);
+        bt.add(8);
+        bt.add(15);
+        bt.add(11);
+        bt.add(18);
+
+        bt.print();
+
+        List<Integer> list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(5, 7, 8, 10, 11, 15, 18), list);
+
+        bt.delete(11);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(5, 7, 8, 10, 15, 18), list);
+
+        bt.delete(15);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(5, 7, 8, 10, 18), list);
+
+        bt.delete(10);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(5, 7, 8, 18), list);
+
+
+    }
+
+    @Test
+    public void deleteRecursive() {
+        BinarySearchTree<Integer> bt = new BinarySearchTree<>();
+
+
+        bt.add(5);
+        bt.add(6);
+        bt.add(2);
+        bt.add(3);
+        bt.add(1);
+        bt.add(4);
+
+        bt.print();
+
+        List<Integer> list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), list);
+
+        bt.deleteRecursive(6);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5), list);
+
+        bt.deleteRecursive(1);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(2, 3, 4, 5), list);
+
+        bt.deleteRecursive(4);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(2, 3, 5), list);
+
+        bt.deleteRecursive(4);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(2, 3, 5), list);
+
+
+    }
+
+
+    @Test
+    public void deleteRecursive_test_2() {
+        BinarySearchTree<Integer> bt = new BinarySearchTree<>();
+
+
+        bt.add(5);
+        bt.add(6);
+        bt.add(2);
+        bt.add(3);
+        bt.add(1);
+        bt.add(4);
+
+        bt.print();
+
+        List<Integer> list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), list);
+
+        bt.deleteRecursive(2);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(1, 3, 4, 5, 6), list);
+
+
+    }
+
+
+    @Test
+    public void deleteRecursive_test_3() {
+        BinarySearchTree<Integer> bt = new BinarySearchTree<>();
+
+        bt.add(10);
+        bt.add(7);
+        bt.add(5);
+        bt.add(8);
+        bt.add(15);
+        bt.add(11);
+        bt.add(18);
+
+        bt.print();
+
+        List<Integer> list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(5, 7, 8, 10, 11, 15, 18), list);
+
+        bt.deleteRecursive(11);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(5, 7, 8, 10, 15, 18), list);
+
+        bt.deleteRecursive(15);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(5, 7, 8, 10, 18), list);
+
+        bt.deleteRecursive(10);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
+        assertEquals(Arrays.asList(5, 7, 8, 18), list);
+
+
+    }
+
 
 }

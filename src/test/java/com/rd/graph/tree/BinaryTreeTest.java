@@ -25,6 +25,22 @@ public class BinaryTreeTest {
         assertEquals(Arrays.asList(1, 2, 3), list);
     }
 
+    @Test
+    public void preOrderTraversalIterative() {
+        BinaryTree<Integer> bt = new BinaryTree<>();
+
+        bt.add(1);
+        bt.add(2);
+        bt.add(3);
+        bt.add(4);
+        bt.add(5);
+
+        List<Integer> list = new ArrayList<>();
+        bt.preOrderTraversalIterative(list::add);
+
+        assertEquals(Arrays.asList(1, 2, 4, 5, 3), list);
+    }
+
 
     @Test
     public void postOrderTraversal() {
@@ -39,6 +55,37 @@ public class BinaryTreeTest {
         assertEquals(Arrays.asList(2, 3, 1), list);
     }
 
+    @Test
+    public void postOrderTraversalIterative() {
+        BinaryTree<Integer> bt = new BinaryTree<>();
+
+        bt.add(1);
+        bt.add(2);
+        bt.add(3);
+        List<Integer> list = new ArrayList<>();
+        bt.postOrderTraversalIterative(list::add);
+
+        assertEquals(Arrays.asList(2, 3, 1), list);
+    }
+
+    @Test
+    public void postOrderTraversalIterative_print() {
+        BinaryTree<Integer> bt = new BinaryTree<>();
+
+        bt.add(1);
+        bt.add(2);
+        bt.add(3);
+        bt.add(4);
+        bt.add(5);
+        bt.add(6);
+        bt.add(7);
+        List<Integer> list = new ArrayList<>();
+        bt.postOrderTraversalIterative(list::add);
+
+        TreePrinter.print(bt.root);
+        System.out.println(list);
+    }
+
 
     @Test
     public void inOrderTraversal() {
@@ -50,6 +97,21 @@ public class BinaryTreeTest {
 
         List<Integer> list = new ArrayList<>();
         bt.inOrderTraversal(list::add);
+
+        assertEquals(Arrays.asList(2, 1, 3), list);
+    }
+
+
+    @Test
+    public void inOrderIterativeTraversal() {
+        BinaryTree<Integer> bt = new BinaryTree<>();
+
+        bt.add(1);
+        bt.add(2);
+        bt.add(3);
+
+        List<Integer> list = new ArrayList<>();
+        bt.inOrderIterativeTraversal(list::add);
 
         assertEquals(Arrays.asList(2, 1, 3), list);
     }
@@ -157,7 +219,55 @@ public class BinaryTreeTest {
         stringBinaryTree.add("5");
         stringBinaryTree.add("6");
 
-        assertNotEquals(integerBinaryTree,stringBinaryTree);
+        assertNotEquals(integerBinaryTree, stringBinaryTree);
+
+    }
+
+    @Test
+    public void delete() {
+        BinaryTree<Integer> bt = new BinaryTree<>();
+
+        bt.add(1);
+        bt.add(2);
+        bt.add(3);
+        bt.add(4);
+        bt.add(5);
+        bt.add(6);
+
+        bt.print();
+
+        List<Integer> list = new ArrayList<>();
+        bt.breadthFirstTraversal(list::add);
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), list);
+
+        bt.delete(6);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.breadthFirstTraversal(list::add);
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5), list);
+
+        bt.delete(1);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.breadthFirstTraversal(list::add);
+        assertEquals(Arrays.asList(5, 2, 3, 4), list);
+
+        bt.delete(4);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.breadthFirstTraversal(list::add);
+        assertEquals(Arrays.asList(5, 2, 3), list);
+
+        bt.delete(4);
+        bt.print();
+
+        list = new ArrayList<>();
+        bt.breadthFirstTraversal(list::add);
+        assertEquals(Arrays.asList(5, 2, 3), list);
+
 
     }
 }

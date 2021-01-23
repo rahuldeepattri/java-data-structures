@@ -1,8 +1,10 @@
 package com.rd.searching;
 
 import org.junit.Test;
-import java.util.stream.*;
-import static org.junit.Assert.*;
+
+import java.util.stream.IntStream;
+
+import static org.junit.Assert.assertEquals;
 
 public class BinarySearchTest {
 
@@ -12,13 +14,13 @@ public class BinarySearchTest {
 
         BinarySearch bs = new BinarySearch();
 
-        Integer[] sorted =  IntStream
-                .rangeClosed(1,10)
+        Integer[] sorted = IntStream
+                .rangeClosed(1, 10)
                 .boxed()
                 .toArray(Integer[]::new);
 
-        assertEquals(1,bs.find(sorted, 2));
-        assertEquals(-1,bs.find(sorted, 11));
+        assertEquals(1, bs.find(sorted, 2));
+        assertEquals(-1, bs.find(sorted, 11));
     }
 
     @Test
@@ -26,13 +28,13 @@ public class BinarySearchTest {
 
         BinarySearch bs = new BinarySearch();
 
-        Integer[] sorted =  IntStream
-                .rangeClosed(1,1)
+        Integer[] sorted = IntStream
+                .rangeClosed(1, 1)
                 .boxed()
                 .toArray(Integer[]::new);
 
-        assertEquals(0,bs.find(sorted, 1));
-        assertEquals(-1,bs.find(sorted, 11));
+        assertEquals(0, bs.find(sorted, 1));
+        assertEquals(-1, bs.find(sorted, 11));
     }
 
     @Test
@@ -40,9 +42,9 @@ public class BinarySearchTest {
 
         BinarySearch bs = new BinarySearch();
 
-        Integer[] sorted =  new Integer[0];
+        Integer[] sorted = new Integer[0];
 
-        assertEquals(-1,bs.find(sorted, 2));
-        assertEquals(-1,bs.find(sorted, 11));
+        assertEquals(-1, bs.find(sorted, 2));
+        assertEquals(-1, bs.find(sorted, 11));
     }
 }

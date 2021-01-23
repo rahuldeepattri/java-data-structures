@@ -12,7 +12,7 @@ public class Queue<T> {
     public static final int EMPTY_VALUE = -1;
 
     private int start = EMPTY_VALUE;
-    private int  end = EMPTY_VALUE;
+    private int end = EMPTY_VALUE;
     private int capacity;
     private T[] elements;
 
@@ -23,18 +23,18 @@ public class Queue<T> {
     }
 
     public void add(T element) throws QueueFullException {
-        if(!offer(element))
+        if (!offer(element))
             throw new QueueFullException();
     }
 
     public boolean offer(T element) {
-        
+
         int idx = getInsertIdx();
 
-        if(idx != start) { 
+        if (idx != start) {
             elements[idx] = element;
             end = idx;
-            if(start == EMPTY_VALUE) {
+            if (start == EMPTY_VALUE) {
                 start = end;
             }
             return true;
@@ -45,25 +45,24 @@ public class Queue<T> {
 
     public T remove() throws QueueEmptyException {
         T element = poll();
-        if(poll() == null)
+        if (poll() == null)
             throw new QueueEmptyException();
         return element;
     }
 
     public T poll() {
-        if(isEmpty())
+        if (isEmpty())
             return null;
         T element = elements[start];
         elements[start] = null;
-        
+
         start = getRemoveIdx();
         return element;
     }
 
 
-
     public T peek() {
-        if(isEmpty())
+        if (isEmpty())
             return null;
         return elements[start];
     }
@@ -74,7 +73,7 @@ public class Queue<T> {
         return start == EMPTY_VALUE;
     }
 
-    public boolean isFull(){
+    public boolean isFull() {
         // next position of end is equal to start then it means
         // queue is full
         return start == getInsertIdx();
@@ -85,8 +84,12 @@ public class Queue<T> {
     }
 
     private int getRemoveIdx() {
-        if(start == end) return EMPTY_VALUE;
+        if (start == end) return EMPTY_VALUE;
         return (start + 1) % capacity;
+    }
+
+    public String toString() {
+        return java.util.Arrays.toString(elements) + ", Start:" + start + " , End:" + end;
     }
 
     private static class QueueFullException extends Exception {
@@ -95,9 +98,5 @@ public class Queue<T> {
 
     private static class QueueEmptyException extends Exception {
 
-    }
-
-    public String toString() {
-        return java.util.Arrays.toString(elements) + ", Start:" + start +" , End:" + end;
     }
 }

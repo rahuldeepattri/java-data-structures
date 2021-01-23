@@ -2,7 +2,7 @@ package com.rd.graph.tree;//insert lookup
 
 import java.util.*;
 
-public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree<T> {
+public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree<T> implements Iterable<T> {
 
     // Node<T> root;
 
@@ -180,6 +180,162 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree<T> {
             return 0;
     }
 
+    /**
+     * If the node is leaf node then no issues delete it simply
+     * <p>
+     * If node has only 1 child only then replace with the child.
+     * <p>
+     * If a node has both children then we need to find the inorder successor and replace
+     * the node.
+     * inorder successor will be in the right subtree and left most deepest node.
+     *
+     * @param toDelete
+     * @return
+     */
+    @Override
+    public boolean delete(T toDelete) {
+        if (this.root == null) return false;
+
+        Node<T> nodeToDelete = this.root;
+        Node<T> parentLeft = null;
+        Node<T> parentRight = null;
+
+        //Find the node to delete
+        while (nodeToDelete != null) {
+            int compareTo = toDelete.compareTo(nodeToDelete.data);
+            if (compareTo == 0) {
+                break;
+            } else if (compareTo < 0) {
+                parentLeft = nodeToDelete;
+                parentRight = null;
+                nodeToDelete = nodeToDelete.left;
+            } else {
+                parentRight = nodeToDelete;
+                parentLeft = null;
+                nodeToDelete = nodeToDelete.right;
+            }
+        }
+
+        if (nodeToDelete == null) return false;
+
+        int childCount = 0;
+        if (nodeToDelete.left != null) childCount++;
+        if (nodeToDelete.right != null) childCount++;
+
+        Node<T> toReplace = null;
+        switch (childCount) {
+            case 0:
+                toReplace = null;
+                break;
+            case 1:
+                toReplace = nodeToDelete.left != null ? nodeToDelete.left : nodeToDelete.right;
+                break;
+
+            case 2:
+                toReplace = nodeToDelete.right;
+
+                Node<T> toReplaceParent = null;
+                while (toReplace.left != null) {
+                    toReplaceParent = toReplace;
+                    toReplace = toReplace.left;
+                }
+                if (toReplaceParent == null) {
+                    nodeToDelete.right = toReplace.right;
+                } else {
+                    toReplaceParent.left = toReplace.right;
+                    // toReplace might have a right child
+                }
+
+                toReplace.left = nodeToDelete.left;
+                toReplace.right = nodeToDelete.right;
+                break;
+
+        }
+        if (parentLeft != null) {
+            parentLeft.left = toReplace;
+        } else if (parentRight != null) {
+            parentRight.right = toReplace;
+        } else {
+            this.root = toReplace;
+        }
+
+        return true;
+
+    }
+
+    /**
+     * If the node is leaf node then no issues delete it simply
+     * <p>
+     * If node has only 1 child only then replace with the child.
+     * <p>
+     * If a node has both children then we need to find the inorder successor and replace
+     * the node.
+     * inorder successor will be in the right subtree and left most deepest node.
+     *
+     * @param toDelete
+     * @return
+     */
+    public void deleteRecursive(T toDelete) {
+        this.root = delete(this.root, toDelete);
+    }
+
+    public Node<T> delete(Node<T> root, T toDelete) {
+
+        if (root == null) {
+            return null;
+        }
+
+        int compareTo = toDelete.compareTo(root.data);
+
+        if (compareTo < 0) {
+            root.left = delete(root.left, toDelete);
+        } else if (compareTo > 0) {
+            root.right = delete(root.right, toDelete);
+        } else { // found the node to delete
+
+            //Case 1 node has no children
+            if (root.left == null && root.right == null) {
+                root = null; // this will automatically update the
+                // parent reference
+            }
+            // Case 2 Only one child
+            else if (root.left != null && root.right == null) {
+                root = root.left;
+            } else if (root.right != null && root.left == null) {
+                root = root.right;
+            }
+            //Case 3 Both the child are present
+            else {
+
+                // Make sure findRightInorderSuccesor returns
+                // successor from right subtree of current node
+                Node<T> successor = findRightInorderSuccessor(root);
+                root.data = successor.data;
+                root.right = delete(root.right, successor.data);
+            }
+
+        }
+
+
+        return root;
+
+    }
+
+    private Node<T> findRightInorderSuccessor(Node<T> root) {
+        root = root.right;
+        while (root.left != null) {
+            root = root.left;
+        }
+        return root;
+    }
+
+
+    @Override
+    public Iterator<T> iterator() {
+        List<T> list = new ArrayList<>();
+        inOrderTraversal(list::add);
+        return list.listIterator();
+    }
 
 }
 

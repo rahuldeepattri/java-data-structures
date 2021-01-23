@@ -11,6 +11,16 @@ import static org.junit.Assert.assertEquals;
 public class BinaryTree<T> {
     Node<T> root;
 
+    static int noOfUniqueTrees(int n) {
+        if (n < 0)
+            return -1;
+        if (n == 0)
+            return 1; // this is because a null can also be arranged
+        if (n == 1)
+            return 1;
+        return 3 + noOfUniqueTrees(n - 1);
+    }
+
     void bFS() {
         if (root == null)
             return;
@@ -89,16 +99,6 @@ public class BinaryTree<T> {
         mirror(rightChild);
         mirror(leftChild);
         return node;
-    }
-
-    static int noOfUniqueTrees(int n) {
-        if (n < 0)
-            return -1;
-        if (n == 0)
-            return 1; // this is because a null can also be arranged
-        if (n == 1)
-            return 1;
-        return 3 + noOfUniqueTrees(n - 1);
     }
 
     @Test
