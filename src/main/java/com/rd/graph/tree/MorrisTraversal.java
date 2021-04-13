@@ -12,14 +12,21 @@ public class MorrisTraversal {
 
         while (curr != null) {
             if (curr.left != null) { // we should process left 1st if there is something
+                // Before processing left we need to insert a backlink so that we
+                // can reach curr node. This back link will be from in order predecessor
                 Node<T> predecessor = curr.left;
+
+                //find in order predecessor
                 while (predecessor.right != curr && predecessor.right != null) {
                     predecessor = predecessor.right;
                 }
+
                 if (predecessor.right == null) { // we found in order predecessor
                     predecessor.right = curr; // insert back link to process this later
                     curr = curr.left; // move to left node to process it first
-                } else if (predecessor.right == curr) {// we reached the current node again, it means  we have processed the left side.
+                } else if (predecessor.right == curr) {
+                    // this is case when saved our backlink
+                    // we reached the current node again, it means  we have processed the left side.
                     predecessor.right = null; // remove the back link
                     consumer.accept(curr.data); // now left side is already processed
                     curr = curr.right; // we can move to right side now
@@ -54,7 +61,7 @@ public class MorrisTraversal {
                 }
                 if (predecessor.right == null) { // we found in order predecessor
                     predecessor.right = curr; // insert back link to process right of curr later
-                    consumer.accept(curr.data);
+                    consumer.accept(curr.data); // after we made sure we can reach right, we process current node
                     curr = curr.left; // move to left node to process it first
                 } else if (predecessor.right == curr) {// we reached the current node again, it means  we have processed the left side.
                     predecessor.right = null; // remove the back link

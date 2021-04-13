@@ -127,15 +127,15 @@ public class BinaryTree<T> {
         binaryTree.root = a;
 
         binaryTree.bFS();
-        System.out.println("");
+        System.out.println();
         binaryTree.preOrderDFS();
-        System.out.println("");
+        System.out.println();
 
         binaryTree.inOrderDFS();
-        System.out.println("");
+        System.out.println();
 
         binaryTree.postOrderDFS();
-        System.out.println("");
+        System.out.println();
 
         assertEquals(4, binaryTree.getDepth());
         binaryTree.mirror();

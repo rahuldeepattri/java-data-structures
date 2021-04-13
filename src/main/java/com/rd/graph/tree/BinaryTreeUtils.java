@@ -109,7 +109,8 @@ public class BinaryTreeUtils {
         return Optional.ofNullable(leastCommonAncestor);
 
     }
-// return the node that it found out of first and second
+
+    // return the node that it found out of first and second
     public static <T> boolean find(Node<T> fromNode, T toFind) {
         if (fromNode == null) return false;
         if (fromNode.data.equals(toFind)) return true;

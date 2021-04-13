@@ -34,6 +34,7 @@ public class PrimsMSTTest {
         // Since graph is not connected mst is not correct
         assertNotEquals(graph1.getNumOfVertices() - 1, mst.size());
 //        number of edges in mst is V - 1
+        System.out.println(mst);
 
     }
 

@@ -48,7 +48,7 @@ public class KruskalsMST {
 
         log.debug("Edges : {}", edgeQueue);
         Set<Edge<Integer>> mst = new LinkedHashSet<>();
-        Set<Integer> visitedVertices = new HashSet<>();
+//        Set<Integer> visitedVertices = new HashSet<>();
 
         // As we keep on adding edges to mst we check that if adding an edge to mst
         // doesnt leads to cycle. For that we maintain a copy of mst as sub graph

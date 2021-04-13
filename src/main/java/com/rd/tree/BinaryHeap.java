@@ -3,7 +3,7 @@ package com.rd.tree;
 import java.lang.reflect.Array;
 
 public abstract class BinaryHeap<T extends Comparable<T>> {
-    private T[] array;
+    private final T[] array;
     /**
      * Store the current length of array, helps in insertion and removal
      **/

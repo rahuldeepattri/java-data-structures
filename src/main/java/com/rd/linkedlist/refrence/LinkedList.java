@@ -148,7 +148,7 @@ public class LinkedList<T extends Comparable<T>> implements Cloneable {
         } else {
             Node<T> curr = ll.head;
             while (curr != null) {
-                addNode((T) curr.getData());
+                addNode(curr.getData());
                 curr = curr.getNext();
             }
         }

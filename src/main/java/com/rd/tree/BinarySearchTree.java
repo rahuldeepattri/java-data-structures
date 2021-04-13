@@ -106,15 +106,15 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree<T> {
         binaryTree.add(x);
 
 
-        System.out.println("");
+        System.out.println();
         binaryTree.preOrderDFS();
-        System.out.println("");
+        System.out.println();
 
         binaryTree.inOrderDFS();
-        System.out.println("");
+        System.out.println();
 
         binaryTree.postOrderDFS();
-        System.out.println("");
+        System.out.println();
 
         assertEquals(b, binaryTree.search('B'));
         assertEquals(x, binaryTree.search('X'));

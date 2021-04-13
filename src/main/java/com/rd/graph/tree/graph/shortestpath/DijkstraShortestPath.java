@@ -36,7 +36,7 @@ public class DijkstraShortestPath {
 
     public double shortestPath(Graph graph, int src, int dest) {
         HashMap<Integer, DistanceInfo> distanceMap = buildDistanceInfoMap(graph, src, dest);
-        log.debug("{}", ShortestPathPrinter.shortestPath((Map) distanceMap, src, dest));
+        log.debug("{}", ShortestPathTracer.shortestPath((Map) distanceMap, src, dest));
         log.debug("Shortest Distance: {}", distanceMap.get(dest).getDistance());
         return distanceMap.get(dest).getDistance();
 

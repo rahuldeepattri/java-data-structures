@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class ShortestPathPrinter {
+public class ShortestPathTracer {
 
     public static List<Integer> shortestPath(Map<Integer, PathTraceable> distanceInfoMap, Integer src, Integer dest) {
         if (

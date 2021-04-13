@@ -29,7 +29,7 @@ public class BFS {
 
     public int shortestPath(Graph graph, Integer src, Integer dest) {
         Map<Integer, DistanceInfo> distanceTable = buildDistanceTable(graph, src);
-        log.debug("{}", ShortestPathPrinter.shortestPath((Map) distanceTable, src, dest));
+        log.debug("{}", ShortestPathTracer.shortestPath((Map) distanceTable, src, dest));
         return distanceTable.get(dest).getDistance();
 
     }
@@ -48,7 +48,8 @@ public class BFS {
 
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(src);
-
+        // each node will be visited once
+        // since we will not add already visited node in the queue
         while (!queue.isEmpty()) {
             /*
              0 ------ 1 -------2
@@ -65,6 +66,7 @@ public class BFS {
                 if (distanceTable.get(to).getDistance() != -1) {
                     // If distance is not -1 then we know we have visited this node
                     continue;
+                    // e.g going from 0 to 1 and then trying to go 1 to 0
                 }
 
                 int minDist = distanceTable.get(from).getDistance() + 1;

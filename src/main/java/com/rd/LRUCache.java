@@ -9,11 +9,11 @@ import static java.util.stream.Collectors.toList;
 
 enum Suit {
     S1,
-    S2;
+    S2
 }
 
 enum Rank {
-    ONE, TWO;
+    ONE, TWO
 }
 
 public class LRUCache<K, V> extends LinkedHashMap<K, V> {
@@ -22,6 +22,11 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
     public LRUCache(int maxSize) {
         super(maxSize, 0.75f, true);
         this.maxSize = maxSize;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return this.size() > maxSize;
     }
 
     public static void main2(String[] args) {
@@ -88,10 +93,7 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
         return result;
     }
 
-    @Override
-    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-        return this.size() > maxSize;
-    }
+
 }
 
 class Card {

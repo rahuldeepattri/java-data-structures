@@ -16,9 +16,8 @@ import static com.rd.graph.tree.graph.GraphType.UNDIRECTED;
 public class AdjacencyMatrixGraph implements Graph {
 
     private final double[][] adjacencyMatrix;
-    private GraphType graphType = DIRECTED;
-
     private final Integer numOfVertices;
+    private GraphType graphType = DIRECTED;
 
     public AdjacencyMatrixGraph(int numOfVertices, GraphType graphType) {
         this.numOfVertices = numOfVertices;
@@ -35,12 +34,39 @@ public class AdjacencyMatrixGraph implements Graph {
         initializeMatrix();
     }
 
+    public static void main(String[] args) {
+        AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(5, UNDIRECTED);
+
+        System.out.println(Arrays.deepToString(graph.adjacencyMatrix));
+
+        graph.addEdge(0, 1);
+        graph.addEdge(2, 1);
+        graph.addEdge(3, 1);
+        graph.addEdge(6, 2);
+        graph.addEdge(2, 2);
+        graph.addEdge(3, 2);
+        System.out.println(Arrays.deepToString(graph.adjacencyMatrix));
+        System.out.println(graph.getAdjacentVertices(2));
+        ArrayList<Integer> list = new ArrayList<>();
+
+        graph.breadthFirstTraversal(list::add, 0);
+
+        System.out.println(list);
+
+        list = new ArrayList<>();
+
+
+        graph.depthFirstTraversal(list::add, 0);
+
+        System.out.println(list);
+
+    }
+
     private void initializeMatrix() {
         for (double[] row : adjacencyMatrix) {
             Arrays.fill(row, Double.POSITIVE_INFINITY);
         }
     }
-
 
     @Override
     public void addEdge(Integer vertexA, Integer vertexB) {
@@ -78,6 +104,14 @@ public class AdjacencyMatrixGraph implements Graph {
         if (graphType == UNDIRECTED) {
             adjacencyMatrix[v2][v1] = weight;
         }
+    }
+
+    public void addEdge(Character vertexA, Character vertexB, double weight) {
+        this.addEdge(getAsInt(vertexA), getAsInt(vertexB), weight);
+    }
+
+    private int getAsInt(char ch) {
+        return ch - 'a';
     }
 
     @Override
@@ -120,34 +154,6 @@ public class AdjacencyMatrixGraph implements Graph {
 
     private boolean isInvalidIdx(Integer idx) {
         return idx == null || idx < 0 || idx >= this.numOfVertices;
-    }
-
-    public static void main(String[] args) {
-        AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(5, UNDIRECTED);
-
-        System.out.println(Arrays.deepToString(graph.adjacencyMatrix));
-
-        graph.addEdge(0, 1);
-        graph.addEdge(2, 1);
-        graph.addEdge(3, 1);
-        graph.addEdge(6, 2);
-        graph.addEdge(2, 2);
-        graph.addEdge(3, 2);
-        System.out.println(Arrays.deepToString(graph.adjacencyMatrix));
-        System.out.println(graph.getAdjacentVertices(2));
-        ArrayList<Integer> list = new ArrayList<>();
-
-        graph.breadthFirstTraversal(list::add, 0);
-
-        System.out.println(list);
-
-        list = new ArrayList<>();
-
-
-        graph.depthFirstTraversal(list::add, 0);
-
-        System.out.println(list);
-
     }
 
 

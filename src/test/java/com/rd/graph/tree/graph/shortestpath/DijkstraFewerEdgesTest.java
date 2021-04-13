@@ -3,13 +3,17 @@ package com.rd.graph.tree.graph.shortestpath;
 import com.rd.graph.tree.graph.AdjacencyMatrixGraph;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
 import static com.rd.graph.tree.graph.GraphType.DIRECTED;
+import static com.rd.graph.tree.graph.GraphType.UNDIRECTED;
 import static org.junit.Assert.assertEquals;
 
-public class DijkstraShortestPathTest {
+public class DijkstraFewerEdgesTest {
 
-
-    DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath();
+    DijkstraFewerEdges shortestPath = new DijkstraFewerEdges();
 
     @Test
     public void shortestPath_unweighted() {
@@ -24,7 +28,7 @@ public class DijkstraShortestPathTest {
         graph1.addEdge(6, 3);
         graph1.addEdge(4, 7);
 
-        double i = dijkstraShortestPath.shortestPath(graph1, 1, 7);
+        double i = shortestPath.shortestPath(graph1, 1, 7);
         assertEquals(0, Double.compare(4, i));
 
 
@@ -43,7 +47,7 @@ public class DijkstraShortestPathTest {
         graph1.addEdge(6, 3, 2);
         graph1.addEdge(4, 7, 2);
 
-        double i = dijkstraShortestPath.shortestPath(graph1, 1, 7);
+        double i = shortestPath.shortestPath(graph1, 1, 7);
         assertEquals(0, Double.compare(8, i));
 
 
@@ -66,7 +70,7 @@ public class DijkstraShortestPathTest {
         graph.addEdge(4, 0, 3);
 
 
-        double i = dijkstraShortestPath.shortestPath(graph, 4, 3);
+        double i = shortestPath.shortestPath(graph, 4, 3);
         assertEquals(0, Double.compare(6, i));
     }
 
@@ -85,7 +89,7 @@ public class DijkstraShortestPathTest {
 //        graph.addEdge(6, 3,2);
 
 //        graph.addEdge(4, 0,3);
-        double i = dijkstraShortestPath.shortestPath(graph, 4, 3);
+        double i = shortestPath.shortestPath(graph, 4, 3);
         System.out.println(i);
         assertEquals(0, Double.compare(Double.POSITIVE_INFINITY, i));
 
@@ -101,7 +105,8 @@ public class DijkstraShortestPathTest {
         graph.addEdge(3, 4, 10);
 
         graph.addEdge(1, 5, 2);
-        graph.addEdge(4, 5, -3); // NOTE: having a negative weight is okay, but having a negative cycle will make the algo run in loops
+        graph.addEdge(4, 5, -3);
+        // NOTE: having a negative weight works sometimes okay, but having a negative cycle will make the algo run in loops
         // increase the negative value such that there is a negative cycle
         /**
          *
@@ -114,7 +119,7 @@ public class DijkstraShortestPathTest {
         graph.addEdge(4, 0, 3);
 
 
-        double i = dijkstraShortestPath.shortestPath(graph, 4, 3);
+        double i = shortestPath.shortestPath(graph, 4, 3);
         assertEquals(0, Double.compare(1, i));
     }
 
@@ -138,9 +143,57 @@ public class DijkstraShortestPathTest {
 //        graph.addEdge(3, 2, 2);
 
 
-        double i = dijkstraShortestPath.shortestPath(graph, 0, 1);
+        double i = shortestPath.shortestPath(graph, 0, 1);
         assertEquals(0, Double.compare(2, i));
         //Shortest path should be 1 but we found 30;
         // if we remove early stopping then for negative cycle graphs we will be stuck in a loop
     }
+
+
+    @Test
+    public void shortestPath_negative_fewer_edges() {
+        AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(5, DIRECTED);
+
+        /*
+              a----2----b
+              |           \ 3
+              3             e
+              |           / 1
+              c ---2----d
+         */
+        graph.addEdge('a', 'b', 2);
+        graph.addEdge('a', 'c', 3);
+        graph.addEdge('b', 'e', 3);
+        graph.addEdge('c', 'd', 2);
+        graph.addEdge('d', 'e', 1);
+
+
+        double distance = shortestPath.shortestPath(graph, 'a', 'e');
+        List<Integer> path = shortestPath.getShortestPath(graph, 'a', 'e');
+
+        assertEquals(0, Double.compare(5, distance));
+        assertEquals(3, path.size());
+        System.out.println(path);
+
+
+    }
+
+    @Test
+    public void generate_dense() {
+        AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(100, UNDIRECTED);
+
+
+        Random random = new Random();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < 10000; i++) {
+            int weight = random.nextInt(50);
+            map.putIfAbsent(weight, 0);
+            map.compute(weight, (k, v) -> v + 1);
+            graph.addEdge(random.nextInt(100), random.nextInt(100), random.nextInt(50));
+        }
+
+        List<Integer> path = shortestPath.getShortestPath(graph, 0, 50);
+        System.out.println(path);
+    }
+
 }

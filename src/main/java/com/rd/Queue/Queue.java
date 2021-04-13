@@ -13,8 +13,8 @@ public class Queue<T> {
 
     private int start = EMPTY_VALUE;
     private int end = EMPTY_VALUE;
-    private int capacity;
-    private T[] elements;
+    private final int capacity;
+    private final T[] elements;
 
     @SuppressWarnings("unchecked")
     public Queue(Class<T> clazz, int capacity) {
@@ -31,10 +31,10 @@ public class Queue<T> {
 
         int idx = getInsertIdx();
 
-        if (idx != start) {
+        if (idx != start) { // no more space left
             elements[idx] = element;
             end = idx;
-            if (start == EMPTY_VALUE) {
+            if (start == EMPTY_VALUE) { // first element
                 start = end;
             }
             return true;

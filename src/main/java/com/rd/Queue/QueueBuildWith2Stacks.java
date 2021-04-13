@@ -5,8 +5,8 @@ import java.util.Deque;
 
 public class QueueBuildWith2Stacks<T> {
 
-    private Deque<T> enqueStack = new ArrayDeque<>();
-    private Deque<T> dequeStack = new ArrayDeque<>();
+    private final Deque<T> enqueStack = new ArrayDeque<>();
+    private final Deque<T> dequeStack = new ArrayDeque<>();
 
     public QueueBuildWith2Stacks() {
     }

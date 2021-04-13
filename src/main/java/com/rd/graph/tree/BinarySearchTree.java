@@ -4,7 +4,7 @@ import java.util.*;
 
 public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree<T> implements Iterable<T> {
 
-    // Node<T> root;
+    // Node<T> root; comming from parent node
 
     @Override
     public void add(T data) {
@@ -336,7 +336,6 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree<T> imp
         inOrderTraversal(list::add);
         return list.listIterator();
     }
-
 }
 
 

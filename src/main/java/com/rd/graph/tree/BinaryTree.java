@@ -77,11 +77,12 @@ public class BinaryTree<T> {
             if (curr != null) {
                 consumer.accept(curr.data); // process current node
                 stack.offerFirst(curr); // need a way to access the right node
-                curr = curr.left;
+                curr = curr.left; //move to left
             } else { // we have processed all the nodes and its left nodes.
                 if (stack.isEmpty())
                     break;
-                curr = stack.pollFirst(); // the current node would have been processed already, we need its right node to be processed
+                curr = stack.pollFirst(); // the current node would have been processed already,
+                // we need its right node to be processed
                 curr = curr.right;
             }
         }
@@ -111,28 +112,28 @@ public class BinaryTree<T> {
         Deque<Node<T>> stack = new LinkedList<>();
 
         // TODO how to have a visited Node<T> set with equals and hashcode
-        Set<Node<T>> visited = new HashSet<>(); // Do we really need to override for our use case?
+        Set<Node<T>> visited = new HashSet<>(); // Do we really need to override for our use case? yes
         while (true) {
             if (curr != null) {  // before processing root process left
                 stack.offerFirst(curr);
-                curr = curr.left;
+                curr = curr.left;  // move to left
             } else { // no more left nodes then process right first.
                 if (stack.isEmpty())
                     break;
 
                 curr = stack.pop();
-                if (curr.right == null) {
+                if (curr.right == null || visited.contains(curr.right)) { // nothing to process on right or have visited right earlier
                     consumer.accept(curr.data);
                     visited.add(curr);
-                    curr = null;
-                } else if (!visited.contains(curr.right)) { // have not  visited right side yet
+                    curr = null;  // see stack for root of current node
+                } else if (!visited.contains(curr.right)) { // have not visited right side yet
                     stack.offerFirst(curr);
-                    curr = curr.right;
-                } else { // have visited left and right
+                    curr = curr.right; // move to right
+                } /*else { // have visited left and right
                     consumer.accept(curr.data);
                     visited.add(curr);
                     curr = null;
-                }
+                }*/
 
             }
 
@@ -229,7 +230,7 @@ public class BinaryTree<T> {
 
         if (parentLeft != null) {
             nodeToDelete.data = parentLeft.left.data;
-            parentLeft.left = null;
+            parentLeft.left = null; // since we are finding the parent of last node
         } else if (parentRight != null) {
             nodeToDelete.data = parentRight.right.data;
             parentRight.right = null;
@@ -314,11 +315,10 @@ public class BinaryTree<T> {
 }
 
 class Node<T> implements TreePrinter.PrintableNode {
+    private final UUID uuid;
     public T data;
     public Node<T> left;
     public Node<T> right;
-
-    private final UUID uuid;
 
     public Node(T data) {
         this.data = data;

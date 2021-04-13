@@ -36,6 +36,42 @@ public class BinaryHeap<T extends Comparable<T>> {
         this.comparator = tComparator;
     }
 
+    // 1 2 3 4 5, k = 2 => 5, 4
+    public static <T extends Comparable<T>> List<T> kLargest(int k, Stream<T> elements) {
+
+        Comparator<T> natural = T::compareTo;
+        return kElements(k, elements, natural);
+    }
+
+    // 5 4 3 2 1, k = 2 => 1, 2
+    public static <T extends Comparable<T>> List<T> kSmallest(int k, Stream<T> elements) {
+
+        Comparator<T> natural = T::compareTo;
+        Comparator<T> reversed = natural.reversed();
+        return kElements(k, elements, reversed);
+
+    }
+
+    private static <T extends Comparable<T>> List<T> kElements(int k, Stream<T> elements, Comparator<T> comparator) {
+        BinaryHeap<T> heap = new BinaryHeap<>(comparator);
+
+        elements.forEach(element -> {
+            if (heap.getCount() < k) {
+                heap.insert(element);
+            } else {
+                T head = heap.getHighestPriority();
+                if (comparator.compare(head, element) < 0) {
+                    // the incoming element is bigger than minimum value
+// then this element is a candidate, else if  //element that is coming is small then it won't be //part of the largest k elements
+                    heap.removeHighestPriority();
+                    heap.insert(element);
+                }
+            }
+        });
+
+        return heap.toList();
+    }
+
     public void reverse() {
 
         this.comparator = comparator.reversed();
@@ -204,42 +240,6 @@ public class BinaryHeap<T extends Comparable<T>> {
         }
 
         return lowest;
-    }
-
-    // 1 2 3 4 5, k = 2 => 5, 4
-    public static <T extends Comparable<T>> List<T> kLargest(int k, Stream<T> elements) {
-
-        Comparator<T> natural = T::compareTo;
-        return kElements(k, elements, natural);
-    }
-
-    // 5 4 3 2 1, k = 2 => 1, 2
-    public static <T extends Comparable<T>> List<T> kSmallest(int k, Stream<T> elements) {
-
-        Comparator<T> natural = T::compareTo;
-        Comparator<T> reversed = natural.reversed();
-        return kElements(k, elements, reversed);
-
-    }
-
-    private static <T extends Comparable<T>> List<T> kElements(int k, Stream<T> elements, Comparator<T> comparator) {
-        BinaryHeap<T> heap = new BinaryHeap<>(comparator);
-
-        elements.forEach(element -> {
-            if (heap.getCount() < k ) {
-                heap.insert(element);
-            } else {
-                T head = heap.getHighestPriority();
-                if (comparator.compare(head, element) < 0) {
-                    // the incoming element is bigger than minimum value
-// then this element is a candidate, else if  //element that is coming is small then it won't be //part of the largest k elements
-                    heap.removeHighestPriority();
-                    heap.insert(element);
-                }
-            }
-        });
-
-        return heap.toList();
     }
 
     private List<T> toList() {

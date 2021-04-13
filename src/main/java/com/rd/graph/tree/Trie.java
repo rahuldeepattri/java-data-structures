@@ -14,6 +14,25 @@ public class Trie {
         this.root = new TrieNode(null, new HashMap<>(), Boolean.FALSE);
     }
 
+    public static void main(String[] args) {
+        Trie trie = new Trie();
+        trie.add("abc");
+        trie.add("aac");
+        System.out.println(trie.search("abcd"));
+        System.out.println(trie.search("aba"));
+        System.out.println(trie.search("abc"));
+        System.out.println(trie.search("aac"));
+
+        System.out.println();
+        System.out.println(trie.startsWith("b"));
+        System.out.println(trie.startsWith("ac"));
+
+        System.out.println(trie.startsWith("a"));
+        System.out.println(trie.startsWith("ab"));
+        System.out.println(trie.startsWith("abc"));
+        System.out.println(trie.startsWith("aac"));
+    }
+
     public void add(String word) {
         Map<Character, TrieNode> children = root.children;
         for (int i = 0; i < word.length(); i++) {
@@ -55,25 +74,6 @@ public class Trie {
             }
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        Trie trie = new Trie();
-        trie.add("abc");
-        trie.add("aac");
-        System.out.println(trie.search("abcd"));
-        System.out.println(trie.search("aba"));
-        System.out.println(trie.search("abc"));
-        System.out.println(trie.search("aac"));
-
-        System.out.println();
-        System.out.println(trie.startsWith("b"));
-        System.out.println(trie.startsWith("ac"));
-
-        System.out.println(trie.startsWith("a"));
-        System.out.println(trie.startsWith("ab"));
-        System.out.println(trie.startsWith("abc"));
-        System.out.println(trie.startsWith("aac"));
     }
 }
 

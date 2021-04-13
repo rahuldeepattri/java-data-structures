@@ -9,11 +9,10 @@ package com.rd.sorting;
  */
 public class HeapSort<T extends Comparable<T>> {
 
-    private T[] array;
-    private int size;
-
     int swaps = 0;
     int comparisons = 0;
+    private T[] array;
+    private int size;
 
     public void sort(T[] arr) {
         this.array = arr;

@@ -7,7 +7,7 @@ import java.util.List;
 // Time Complexity - O(nlogn)
 // Space Complexity - O(n + log(n))
 // Is Stable - Yes
-// Is Adatable? - No
+// Is Adaptable? - No
 public class MergeSort {
 
     int maxSize = 0;

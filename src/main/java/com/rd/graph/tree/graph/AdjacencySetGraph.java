@@ -36,6 +36,61 @@ public class AdjacencySetGraph implements Graph {
         initializeSet();
     }
 
+    public static void main(String[] args) {
+        AdjacencySetGraph graph = new AdjacencySetGraph(5, UNDIRECTED);
+
+        out.println(graph.nodeList);
+
+        graph.addEdge(0, 1);
+        graph.addEdge(2, 1);
+        graph.addEdge(1, 2);
+//        graph.addEdge(2, 0);
+        graph.addEdge(6, 2);
+//        graph.addEdge(2, 2);
+        graph.addEdge(3, 2);
+        out.println(graph.nodeList);
+        out.println(graph.getAdjacentVertices(2));
+
+        ArrayList<Integer> list = new ArrayList<>();
+
+        graph.breadthFirstTraversal(list::add, 0);
+
+        out.println(list);
+
+        list = new ArrayList<>();
+
+        graph.depthFirstTraversal(list::add, 0);
+
+        out.println(list);
+
+        list = new ArrayList<>();
+        Boolean[] booleans = new Boolean[graph.numOfNodes];
+        for (int i = 0; i < graph.numOfNodes; i++) {
+            graph.postOrderTraversal(list::add, booleans, i);
+        }
+
+        out.println(list);
+
+        list = new ArrayList<>();
+        booleans = new Boolean[graph.numOfNodes];
+        for (int i = 0; i < graph.numOfNodes; i++) {
+            graph.bfs(list::add, booleans, i);
+        }
+        out.println(list);
+
+        out.println(graph.getDegree());
+        out.println("Checking for cycles");
+        out.println(UNDIRECTED.detectCycle(graph));
+        out.println(UNDIRECTED.detectCycleDFS(graph));
+
+        graph.addEdge(3, 1);
+
+        out.println(UNDIRECTED.detectCycle(graph));
+        out.println(UNDIRECTED.detectCycleDFS(graph));
+
+
+    }
+
     private void initializeSet() {
         IntStream.range(0, numOfNodes)
                 .mapToObj(Node::new)
@@ -83,57 +138,5 @@ public class AdjacencySetGraph implements Graph {
     @Override
     public double getWeight(int vertex, int neighbour) {
         throw new UnsupportedOperationException();
-    }
-
-    public static void main(String[] args) {
-        AdjacencySetGraph graph = new AdjacencySetGraph(5, UNDIRECTED);
-
-        out.println(graph.nodeList);
-
-        graph.addEdge(0, 1);
-        graph.addEdge(2, 1);
-        graph.addEdge(1, 2);
-//        graph.addEdge(2, 0);
-        graph.addEdge(6, 2);
-//        graph.addEdge(2, 2);
-        graph.addEdge(3, 2);
-        out.println(graph.nodeList);
-        out.println(graph.getAdjacentVertices(2));
-
-        ArrayList<Integer> list = new ArrayList<>();
-
-        graph.breadthFirstTraversal(list::add, 0);
-
-        out.println(list);
-
-        list = new ArrayList<>();
-
-        graph.depthFirstTraversal(list::add, 0);
-
-        out.println(list);
-
-        list = new ArrayList<>();
-        Boolean[] booleans = new Boolean[graph.numOfNodes];
-        for (int i = 0; i < graph.numOfNodes; i++) {
-            graph.postOrderTraversal(list::add, booleans, i);
-        }
-
-        out.println(list);
-
-        list = new ArrayList<>();
-        booleans = new Boolean[graph.numOfNodes];
-        for (int i = 0; i < graph.numOfNodes; i++) {
-            graph.bfs(list::add, booleans, i);
-        }
-        out.println(list);
-
-        out.println(graph.getDegree());
-
-        out.println(UNDIRECTED.detectCycle(graph));
-
-        graph.addEdge(3, 1);
-
-        out.println(UNDIRECTED.detectCycle(graph));
-
     }
 }

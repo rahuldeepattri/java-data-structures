@@ -28,6 +28,7 @@ public class PrimsMST {
         // find the shortest outgoing edge
         // add it set and repeat
 
+        // include src node in MST
         distanceMap.get(src).setLastVertex(src);
         distanceMap.get(src).setDistance(0d);
 
@@ -41,16 +42,18 @@ public class PrimsMST {
          */
         Queue<VertexInfo> queue = new PriorityQueue<>(Comparator.comparingDouble(VertexInfo::getDistance));
 
+        //from src node try to find all the edges
+        //src node is at an edge of 0 distance
         queue.offer(new VertexInfo(src, 0d));
         Set<Edge<Integer>> mst = new LinkedHashSet<>();
 
         /**
          * Think of visited edges as cloud which keeps on expanding till it
-         * has all the nodes.
+         * has all the nodes. Initially this is empty
          */
         Set<Integer> visitedVertices = new HashSet<>();
 
-        while (!queue.isEmpty() && visitedVertices.size() != V) {
+        while (!queue.isEmpty() && visitedVertices.size() != V) { // till we have all nodes in out mst
             log.debug("Queue: {}", queue);
 
             // find the closest next vertex
@@ -75,14 +78,13 @@ public class PrimsMST {
             //Note that minimum distance was updated before adding to queue
             double currentVertexDist = poll.getDistance();
 
-
-            // Get the nearest edge from visited vertices to unvisited vertex
-            Edge<Integer> edge = Edge.<Integer>builder()
-                    .from(distanceMap.get(currentVertex).getLastVertex())
-                    .to(currentVertex)
-                    .weight(currentVertexDist)
-                    .build();
             if (currentVertex != src) {
+                // Get the nearest edge from visited vertices to unvisited vertex
+                Edge<Integer> edge = Edge.<Integer>builder()
+                        .from(distanceMap.get(currentVertex).getLastVertex())
+                        .to(currentVertex)
+                        .weight(currentVertexDist)
+                        .build();
                 mst.add(edge);
             }
 
@@ -92,7 +94,15 @@ public class PrimsMST {
                 if (visitedVertices.contains(neighbor)) {
                     continue;
                 }
-                /*
+                 /*
+                   A ----2---- B
+                   |           |
+                   |           |
+                   2           1
+                   |           |
+                   |           |
+                   C ----2---- D
+
                     vertex  distance    lastVertex
                     a           0       a
                     b           2       a
@@ -105,6 +115,12 @@ public class PrimsMST {
                     // If we know we cannot do any better then dont add to queue
                     // else we know a better path exists then add to queue so that
                     // it gets processed first.
+
+                    // since distance map keeps track of nearest edge from
+                    // our visited nodes. If we already have a better distance
+                    // available which is reachable via other nodes in our mst
+                    // we dont need to add to edge to queue which wont
+                    // have a better result.
 
                     distanceMap.get(neighbor).setDistance(distance);
                     distanceMap.get(neighbor).setLastVertex(currentVertex);
